@@ -1,7 +1,7 @@
 # 🚀 Rohit Alam | Full-Stack Developer & Python Enthusiast
 
 <p align="center">
-  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&pause=1000&color=3B82F6&center=true&vCenter=true&width=435&lines=Full+Stack+Developer;Python+Developer+in+Making;UI%2FUX+Architect;Termux+Power+User" alt="Typing SVG" />
+  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&pause=1000&color=3B82F6&center=true&vCenter=true&width=435&lines=Full+Stack+Developer;Python+Developer+in+Making;UI%2FUX+Architect;htmlxzr+Power+User" alt="Typing SVG" />
 </p>
 
 ---
