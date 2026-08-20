@@ -3,7 +3,6 @@
 import { motion } from "framer-motion";
 import Section from "@/components/common/Section";
 import Heading from "@/components/common/Heading";
-import Button from "@/components/common/Button";
 import Link from "next/link";
 import HeroBackground from "@/components/hero/HeroBackground";
 
@@ -33,8 +32,12 @@ export default function Hero() {
         </p>
 
         <div className="mt-3 flex flex-wrap gap-4">
-          <Link href="/projects"><Button variant="primary">View Projects</Button></Link>
-          <Link href="/contact"><Button variant="outline">Contact Me</Button></Link>
+          <Link href="/projects" className="btn btn-primary">
+            View Projects
+          </Link>
+          <Link href="/contact" className="btn btn-outline">
+            Contact Me
+          </Link>
         </div>
       </motion.div>
     </Section>
