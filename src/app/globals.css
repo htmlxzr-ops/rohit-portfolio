@@ -1,11 +1,10 @@
+@import "tailwindcss";
+@config "../../tailwind.config.js";
 /* ==========================================================================
    DEVDESH PORTFOLIO DESIGN SYSTEM
    GLOBAL CSS - PART 1
    ========================================================================== */
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 
 /* ==========================================================================
    GOOGLE FONT

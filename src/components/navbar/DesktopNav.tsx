@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import NavLogo from "./NavLogo";
 import NavLinks from "./NavLinks";
 import { resumeLink } from "./navigation";
+import AuthButton from "./AuthButton";
 
 export default function DesktopNav() {
   return (
@@ -89,6 +90,8 @@ export default function DesktopNav() {
             >
               Contact
             </Link>
+
+            <AuthButton variant="desktop" />
           </div>
         </div>
       </div>

@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { navigation } from "./navigation";
+import AuthButton from "./AuthButton";
 
 export default function MobileMenu() {
   const [open, setOpen] = useState(false);
@@ -83,6 +84,7 @@ export default function MobileMenu() {
                     <Link
                       key={item.href}
                       href={item.href}
+                      onClick={() => setOpen(false)}
                       className={`block rounded-xl px-4 py-3 text-base font-medium transition ${
                         active
                           ? "bg-cyan-500/10 text-cyan-400"
@@ -95,9 +97,14 @@ export default function MobileMenu() {
                 })}
               </nav>
 
-              <div className="mt-10">
+              <div className="mt-4">
+                <AuthButton variant="mobile" />
+              </div>
+
+              <div className="mt-4">
                 <Link
                   href="/contact"
+                  onClick={() => setOpen(false)}
                   className="block rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 py-3 text-center font-semibold text-white shadow-glow"
                 >
                   Contact Me

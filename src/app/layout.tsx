@@ -1,4 +1,5 @@
 import Navbar from "@/components/navbar/Navbar";
+import VisitorTracker from "@/components/providers/VisitorTracker";
 import "./globals.css";
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
@@ -116,8 +117,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth">
       <body className={inter.variable}>
+        <VisitorTracker />
         <Navbar />
 
         <main className="pt-24">
@@ -142,6 +144,7 @@ export default function RootLayout({
                 "https://www.linkedin.com/in/html-xzr-a36a323a0",
                 "https://x.com/HtmlXzr13714",
                 "https://youtube.com/@htmlxzr",
+                "https://www.facebook.com/share/1Bj4F9JMSg/",
               ],
             }),
           }}
