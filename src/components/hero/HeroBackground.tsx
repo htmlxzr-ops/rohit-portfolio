@@ -1,6 +1,6 @@
 export default function HeroBackground() {
   return (
-    <div className="absolute inset-0 -z-10 overflow-hidden bg-gradient">
+    <div className="absolute inset-0 -z-10 overflow-hidden bg-gradient pointer-events-none">
       <div
         className="absolute -top-40 -left-32 h-[550px] w-[550px] rounded-full blur-[120px]"
         style={{ background: "#00d4ff22" }}
