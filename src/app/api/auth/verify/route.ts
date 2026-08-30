@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { sql } from "@/lib/db";
+import { checkRateLimit } from "@/lib/rate-limit";
 
 export async function POST(req: NextRequest) {
   try {
@@ -9,6 +10,20 @@ export async function POST(req: NextRequest) {
       return NextResponse.json(
         { success: false, message: "Email and OTP are required." },
         { status: 400 }
+      );
+    }
+
+    const rateLimit = await checkRateLimit({
+      key: `verify:${email.toLowerCase()}`,
+      maxAttempts: 5,
+      windowMs: 15 * 60 * 1000,
+    });
+
+    if (!rateLimit.allowed) {
+      const minutes = Math.ceil((rateLimit.retryAfterSeconds || 0) / 60);
+      return NextResponse.json(
+        { success: false, message: `Too many attempts. Please try again in ${minutes} minute(s).` },
+        { status: 429 }
       );
     }
 
@@ -40,7 +55,7 @@ export async function POST(req: NextRequest) {
 
     if (Number(user.otp_expires) < Date.now()) {
       return NextResponse.json(
-        { success: false, message: "OTP has expired. Please register again to get a new code." },
+        { success: false, message: "OTP has expired. Please request a new code." },
         { status: 410 }
       );
     }

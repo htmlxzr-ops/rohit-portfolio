@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, FormEvent, Suspense } from "react";
+import { useState, FormEvent, Suspense, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Section from "@/components/common/Section";
 import Heading from "@/components/common/Heading";
@@ -15,6 +15,17 @@ function VerifyForm() {
   const [otp, setOtp] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "error" | "success">("idle");
   const [errorMsg, setErrorMsg] = useState("");
+  const [resendCooldown, setResendCooldown] = useState(60);
+  const [resending, setResending] = useState(false);
+  const [resendMsg, setResendMsg] = useState("");
+
+  useEffect(() => {
+    if (resendCooldown <= 0) return;
+    const timer = setInterval(() => {
+      setResendCooldown((prev) => Math.max(0, prev - 1));
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [resendCooldown]);
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -43,13 +54,43 @@ function VerifyForm() {
     }
   }
 
+  async function handleResend() {
+    if (resendCooldown > 0 || !email) return;
+    setResending(true);
+    setResendMsg("");
+    setErrorMsg("");
+
+    try {
+      const res = await fetch("/api/auth/resend-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      const data = await res.json();
+
+      if (!res.ok || !data.success) {
+        setResendMsg(data.message || "Failed to resend code.");
+        setResending(false);
+        return;
+      }
+
+      setResendMsg("A new code has been sent to your email.");
+      setResendCooldown(60);
+    } catch {
+      setResendMsg("Network error. Please try again.");
+    } finally {
+      setResending(false);
+    }
+  }
+
   return (
     <Section className="py-section">
       <Heading as="h1" gradient>
         Verify Your Email
       </Heading>
       <p className="mt-2 max-w-xl">
-        Enter the 6-digit code sent to your email address.
+        Enter the 6-digit code sent to your email address. The code expires
+        in 10 minutes.
       </p>
 
       <form onSubmit={handleSubmit} className="mt-4 max-w-xl space-y-4">
@@ -87,6 +128,31 @@ function VerifyForm() {
           </p>
         )}
       </form>
+
+      <div className="mt-3 max-w-xl">
+        <button
+          type="button"
+          onClick={handleResend}
+          disabled={resendCooldown > 0 || resending || !email}
+          className="text-sm text-primary"
+          style={{
+            background: "none",
+            border: "none",
+            cursor: resendCooldown > 0 ? "not-allowed" : "pointer",
+            opacity: resendCooldown > 0 ? 0.5 : 1,
+          }}
+        >
+          {resending
+            ? "Sending..."
+            : resendCooldown > 0
+            ? `Resend code in ${resendCooldown}s`
+            : "Resend code"}
+        </button>
+
+        {resendMsg && (
+          <p className="mt-1 text-sm text-muted">{resendMsg}</p>
+        )}
+      </div>
     </Section>
   );
 }

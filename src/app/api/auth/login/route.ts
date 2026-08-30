@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { sql } from "@/lib/db";
+import { checkRateLimit } from "@/lib/rate-limit";
 
 export async function POST(req: NextRequest) {
   try {
@@ -11,6 +12,20 @@ export async function POST(req: NextRequest) {
       return NextResponse.json(
         { success: false, message: "Email and password are required." },
         { status: 400 }
+      );
+    }
+
+    const rateLimit = await checkRateLimit({
+      key: `login:${email.toLowerCase()}`,
+      maxAttempts: 5,
+      windowMs: 15 * 60 * 1000,
+    });
+
+    if (!rateLimit.allowed) {
+      const minutes = Math.ceil((rateLimit.retryAfterSeconds || 0) / 60);
+      return NextResponse.json(
+        { success: false, message: `Too many login attempts. Please try again in ${minutes} minute(s).` },
+        { status: 429 }
       );
     }
 
