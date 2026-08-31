@@ -12,15 +12,30 @@ export default function SecurityTopicPage() {
       <Heading as="h1" gradient>
         {topic.title}
       </Heading>
-      <p className="mt-2 max-w-2xl">{topic.summary}</p>
+      <p className="mt-2 max-w-2xl text-secondary">{topic.intro}</p>
 
-      <ul className="mt-4" style={{ paddingLeft: "1.2rem", listStyle: "disc" }}>
-        {topic.points.map((point) => (
-          <li key={point} className="text-secondary mt-2">
-            {point}
-          </li>
-        ))}
-      </ul>
+      <div className="mt-4 max-w-2xl space-y-4">
+        <div>
+          <h3 className="text-primary">Why It Matters</h3>
+          <p className="mt-2 text-secondary">{topic.whyItMatters}</p>
+        </div>
+
+        <div>
+          <h3 className="text-primary">How I Apply It</h3>
+          <p className="mt-2 text-secondary">{topic.howIApplyIt}</p>
+        </div>
+
+        <div>
+          <h3 className="text-primary">Key Practices</h3>
+          <ul className="mt-2" style={{ paddingLeft: "1.2rem", listStyle: "disc" }}>
+            {topic.practices.map((point) => (
+              <li key={point} className="text-secondary mt-1">
+                {point}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
     </Section>
   );
 }
