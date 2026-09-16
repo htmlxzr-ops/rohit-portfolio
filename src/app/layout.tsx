@@ -95,11 +95,6 @@ export const metadata: Metadata = {
     images: ["/og/cover.png"],
   },
 
-  icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon.ico",
-    apple: "/favicon.ico",
-  },
 
   category: "technology",
 };
