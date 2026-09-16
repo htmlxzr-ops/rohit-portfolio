@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 
 export default function NavLogo() {
   return (
-    <Link href="/" aria-label="Rohit Portfolio Home">
+    <Link href="/" aria-label="Rohit Alam Portfolio Home">
       <motion.div
         whileHover={{
           scale: 1.05,
@@ -17,26 +17,36 @@ export default function NavLogo() {
       >
         <div
           className="
+            relative
             flex
             h-11
             w-11
             items-center
             justify-center
             rounded-2xl
-            bg-gradient-to-br
-            from-cyan-400
-            to-blue-600
-            font-bold
-            text-white
             shadow-glow
           "
+          style={{
+            background: "linear-gradient(135deg, #00D4FF, #FFD54F)",
+            padding: "2px",
+          }}
         >
-          R
+          <div
+            className="flex h-full w-full items-center justify-center rounded-2xl"
+            style={{ background: "#050816" }}
+          >
+            <span
+              className="text-gradient font-black"
+              style={{ fontSize: "1.1rem", letterSpacing: "-0.02em" }}
+            >
+              RA
+            </span>
+          </div>
         </div>
 
         <div className="flex flex-col leading-none">
           <span className="text-lg font-bold tracking-wide text-white">
-            Rohit
+            Rohit Alam
           </span>
 
           <span className="text-xs text-text-muted">

@@ -55,14 +55,32 @@ export default function MobileMenu() {
               className="absolute right-0 top-0 h-full w-[85%] max-w-sm border-l border-white/10 bg-[#050816] p-6"
             >
               <div className="mb-10 flex items-center justify-between">
-                <div>
-                  <h2 className="text-xl font-bold text-white">
-                    Rohit
-                  </h2>
+                <div className="flex items-center gap-3">
+                  <div
+                    className="flex h-10 w-10 items-center justify-center rounded-2xl shadow-glow"
+                    style={{
+                      background: "linear-gradient(135deg, #00D4FF, #FFD54F)",
+                      padding: "2px",
+                    }}
+                  >
+                    <div
+                      className="flex h-full w-full items-center justify-center rounded-2xl"
+                      style={{ background: "#050816" }}
+                    >
+                      <span className="text-gradient font-black" style={{ fontSize: "0.95rem" }}>
+                        RA
+                      </span>
+                    </div>
+                  </div>
 
-                  <p className="text-sm text-gray-400">
-                    Portfolio
-                  </p>
+                  <div>
+                    <h2 className="text-xl font-bold text-white">
+                      Rohit Alam
+                    </h2>
+                    <p className="text-sm text-gray-400">
+                      Portfolio
+                    </p>
+                  </div>
                 </div>
 
                 <button
