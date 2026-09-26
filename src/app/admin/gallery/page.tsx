@@ -8,6 +8,8 @@ interface GalleryImage {
   id: number;
   image_url: string;
   caption: string | null;
+  cloudinary_id: string | null;
+  created_at: string;
 }
 
 export default function AdminGalleryPage() {
@@ -18,6 +20,8 @@ export default function AdminGalleryPage() {
   const [caption, setCaption] = useState("");
   const [uploading, setUploading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
+  const [deletingId, setDeletingId] = useState<number | null>(null);
+  const [lightbox, setLightbox] = useState<GalleryImage | null>(null);
 
   function loadImages() {
     setLoading(true);
@@ -62,7 +66,7 @@ export default function AdminGalleryPage() {
       await fetch("/api/admin/gallery", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ imageUrl: uploadData.url, caption }),
+        body: JSON.stringify({ imageUrl: uploadData.url, caption, cloudinaryId: uploadData.publicId }),
       });
 
       setFile(null);
@@ -73,6 +77,22 @@ export default function AdminGalleryPage() {
       setErrorMsg("Something went wrong.");
     } finally {
       setUploading(false);
+    }
+  }
+
+  async function handleDelete(id: number) {
+    if (!confirm("Delete this image permanently?")) return;
+    setDeletingId(id);
+    try {
+      await fetch("/api/admin/gallery", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id }),
+      });
+      setImages((prev) => prev.filter((img) => img.id !== id));
+      if (lightbox?.id === id) setLightbox(null);
+    } finally {
+      setDeletingId(null);
     }
   }
 
@@ -109,16 +129,63 @@ export default function AdminGalleryPage() {
       <div className="mt-4 grid-3">
         {images.map((img) => (
           <div key={img.id} className="card">
-            <img
-              src={img.image_url}
-              alt={img.caption || "Gallery image"}
-              className="rounded"
-              style={{ width: "100%", height: "150px", objectFit: "cover" }}
-            />
+            <div
+              onClick={() => setLightbox(img)}
+              style={{ cursor: "pointer" }}
+            >
+              <img
+                src={img.image_url}
+                alt={img.caption || "Gallery image"}
+                className="rounded"
+                style={{ width: "100%", height: "150px", objectFit: "cover" }}
+              />
+            </div>
             {img.caption && <p className="mt-2 text-secondary">{img.caption}</p>}
+            <div className="mt-2 flex-between">
+              <small className="text-muted">
+                {new Date(img.created_at).toLocaleDateString()}
+              </small>
+              <button
+                onClick={() => handleDelete(img.id)}
+                disabled={deletingId === img.id}
+                className="text-sm"
+                style={{ background: "none", border: "none", cursor: "pointer", color: "#EF4444" }}
+              >
+                {deletingId === img.id ? "Deleting..." : "Delete"}
+              </button>
+            </div>
           </div>
         ))}
       </div>
+
+      {lightbox && (
+        <div
+          onClick={() => setLightbox(null)}
+          style={{
+            position: "fixed",
+            inset: 0,
+            background: "rgba(0,0,0,0.9)",
+            zIndex: 999,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "1.5rem",
+          }}
+        >
+          <img
+            src={lightbox.image_url}
+            alt={lightbox.caption || "Gallery image"}
+            style={{ maxWidth: "100%", maxHeight: "75vh", objectFit: "contain", borderRadius: "12px" }}
+          />
+          {lightbox.caption && (
+            <p className="mt-3 text-secondary" style={{ textAlign: "center" }}>{lightbox.caption}</p>
+          )}
+          <small className="text-muted mt-1">
+            {new Date(lightbox.created_at).toLocaleString()}
+          </small>
+        </div>
+      )}
     </div>
   );
 }

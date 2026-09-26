@@ -6,11 +6,20 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-export async function uploadImage(base64Data: string, folder: string): Promise<string> {
+export interface UploadResult {
+  url: string;
+  publicId: string;
+}
+
+export async function uploadImage(base64Data: string, folder: string): Promise<UploadResult> {
   const result = await cloudinary.uploader.upload(base64Data, {
     folder: `rohit-portfolio/${folder}`,
   });
-  return result.secure_url;
+  return { url: result.secure_url, publicId: result.public_id };
+}
+
+export async function deleteImage(publicId: string): Promise<void> {
+  await cloudinary.uploader.destroy(publicId);
 }
 
 export default cloudinary;

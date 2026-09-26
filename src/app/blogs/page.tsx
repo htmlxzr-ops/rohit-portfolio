@@ -27,18 +27,66 @@ export default async function BlogsPage() {
       ) : (
         <div className="mt-4 grid-3">
           {posts.map((post) => (
-            <Link key={post.slug} href={`/blogs/${post.slug}`} className="card hover-lift">
-              {post.cover_image && (
-                <img
-                  src={post.cover_image}
-                  alt={post.title}
-                  className="rounded mb-2"
-                  style={{ width: "100%", height: "160px", objectFit: "cover" }}
-                />
-              )}
-              <h4>{post.title}</h4>
-              <p className="mt-1 text-secondary">{post.excerpt}</p>
-              <small className="text-muted">
+            <Link
+              key={post.slug}
+              href={`/blogs/${post.slug}`}
+              className="card hover-lift"
+              style={{ display: "flex", flexDirection: "column", height: "100%" }}
+            >
+              <div
+                style={{
+                  width: "100%",
+                  height: "160px",
+                  borderRadius: "16px",
+                  overflow: "hidden",
+                  marginBottom: "1rem",
+                  background: "rgba(255,255,255,.04)",
+                  flexShrink: 0,
+                }}
+              >
+                {post.cover_image ? (
+                  <img
+                    src={post.cover_image}
+                    alt={post.title}
+                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                  />
+                ) : (
+                  <div
+                    className="flex-center"
+                    style={{ width: "100%", height: "100%" }}
+                  >
+                    <span className="text-muted" style={{ fontSize: "0.8rem" }}>
+                      No cover image
+                    </span>
+                  </div>
+                )}
+              </div>
+
+              <h4
+                style={{
+                  display: "-webkit-box",
+                  WebkitLineClamp: 2,
+                  WebkitBoxOrient: "vertical",
+                  overflow: "hidden",
+                }}
+              >
+                {post.title}
+              </h4>
+
+              <p
+                className="mt-1 text-secondary"
+                style={{
+                  display: "-webkit-box",
+                  WebkitLineClamp: 3,
+                  WebkitBoxOrient: "vertical",
+                  overflow: "hidden",
+                  flexGrow: 1,
+                }}
+              >
+                {post.excerpt}
+              </p>
+
+              <small className="text-muted mt-2">
                 {new Date(post.created_at).toLocaleDateString()}
               </small>
             </Link>

@@ -15,9 +15,9 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ success: false, message: "No image provided." }, { status: 400 });
     }
 
-    const url = await uploadImage(image, folder || "blogs");
+    const { url, publicId } = await uploadImage(image, folder || "blogs");
 
-    return NextResponse.json({ success: true, url });
+    return NextResponse.json({ success: true, url, publicId });
   } catch (error) {
     console.error("Upload error:", error);
     return NextResponse.json({ success: false, message: "Upload failed." }, { status: 500 });
