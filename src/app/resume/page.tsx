@@ -1,6 +1,5 @@
 import Section from "@/components/common/Section";
 import Heading from "@/components/common/Heading";
-import Button from "@/components/common/Button";
 
 export default function ResumePage() {
   return (
@@ -9,8 +8,8 @@ export default function ResumePage() {
         Resume
       </Heading>
       <p className="mt-2 max-w-xl">
-        A quick summary of who I am and what I do. A downloadable PDF
-        version is coming soon.
+        A quick summary of who I am and what I do. Download the PDF
+        version for the full breakdown.
       </p>
 
       <div className="mt-4 max-w-2xl space-y-3">
@@ -39,9 +38,9 @@ export default function ResumePage() {
       </div>
 
       <div className="mt-4">
-        <Button variant="gold" disabled>
-          Download PDF (Coming Soon)
-        </Button>
+        <a href="/api/resume" download className="btn btn-gold">
+          Download PDF
+        </a>
       </div>
     </Section>
   );
