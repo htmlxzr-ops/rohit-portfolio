@@ -19,12 +19,22 @@ export default async function BlogPostPage({
   return (
     <Section className="py-section">
       {post.cover_image && (
-        <img
-          src={post.cover_image}
-          alt={post.title}
-          className="rounded mb-3"
-          style={{ width: "100%", maxHeight: "400px", objectFit: "cover" }}
-        />
+        <div
+          style={{
+            width: "100%",
+            maxWidth: "720px",
+            borderRadius: "16px",
+            overflow: "hidden",
+            marginBottom: "1.5rem",
+            background: "rgba(255,255,255,.04)",
+          }}
+        >
+          <img
+            src={post.cover_image}
+            alt={post.title}
+            style={{ width: "100%", height: "auto", display: "block" }}
+          />
+        </div>
       )}
       <Heading as="h1" gradient>
         {post.title}
