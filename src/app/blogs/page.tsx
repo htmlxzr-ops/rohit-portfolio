@@ -36,7 +36,7 @@ export default async function BlogsPage() {
               <div
                 style={{
                   width: "100%",
-                  height: "160px",
+                  height: "220px",
                   borderRadius: "16px",
                   overflow: "hidden",
                   marginBottom: "1rem",
@@ -48,7 +48,7 @@ export default async function BlogsPage() {
                   <img
                     src={post.cover_image}
                     alt={post.title}
-                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                    style={{ width: "100%", height: "100%", objectFit: "contain" }}
                   />
                 ) : (
                   <div
